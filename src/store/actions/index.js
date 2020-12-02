@@ -1,0 +1,1 @@
+export { fetchingFeed } from "./feedAction";

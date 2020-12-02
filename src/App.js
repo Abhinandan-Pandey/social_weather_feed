@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Switch, Route } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+import NewsFeed from "./Pages/NewsFeed";
+import * as actions from "./store/actions/index";
+
+function App(props) {
+  const { startFetchingFeed } = props;
+
+  useEffect(() => {
+    startFetchingFeed();
+  }, [startFetchingFeed]);
+
+  const routes = (
+    <Switch>
+      <Route path="/" component={NewsFeed} />
+    </Switch>
   );
+
+  return <>{routes}</>;
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    startFetchingFeed: () => dispatch(actions.fetchingFeed()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(App);
